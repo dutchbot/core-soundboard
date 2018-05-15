@@ -15,6 +15,7 @@ function renderApp() {
         <AppContainer>
             <BrowserRouter children={ routes } basename={ baseUrl } />
         </AppContainer>,
+        
         document.getElementById('react-app')
     );
 }

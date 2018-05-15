@@ -4,11 +4,9 @@ import ReactPlayer from 'react-player'
 
 class ResponsivePlayer extends React.Component<ReactPlayerProps, any> {
     private player: any
-    public propTypes: any;
-    private end_time: any;
   constructor(props:any) {
     super(props);
-    this.state = { url: props.url, start_time: props.start_time, end_time: props.end_time, name: props.name};
+    this.state = {};
   }
 
   ref = (player : any) => {
@@ -16,7 +14,7 @@ class ResponsivePlayer extends React.Component<ReactPlayerProps, any> {
   }
 
   onProgress = (state : any) => {
-    if (state.playedSeconds >= this.state.end_time) {
+    if (state.playedSeconds >= this.props.end_time) {
       var internalPlayer = this.player.player.player.player;
       internalPlayer.pauseVideo();
       internalPlayer.seekTo(this.props.start_time)
@@ -26,19 +24,20 @@ class ResponsivePlayer extends React.Component<ReactPlayerProps, any> {
 
   render() {
     return (
-      <div className='player-wrapper'>
-        <ReactPlayer
-          ref={this.ref}
-          className='react-player'
-          playing={this.state.playing}
-          url={this.state.url}
-          onProgress={this.onProgress}
-          width='100%'
-          height='100%'
-        />
-      <div className="overlay">
-      <div className="text">{this.state.name}</div>
-      </div>
+      <div className='col-4 col-sm-3 rm-padding'>
+        <div className='player-wrapper '>
+          <ReactPlayer
+            ref={this.ref}
+            className='react-player'
+            url={this.props.url}
+            onProgress={this.onProgress}
+            width='100%'
+            height='100%'
+          />
+          <div className="overlay">
+            <div className="text">{this.props.name}</div>
+          </div>
+        </div>
       </div>
     )
   }

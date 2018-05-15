@@ -18,15 +18,17 @@ namespace Core_Soundboard
         }
 
         public IConfiguration Configuration { get; }
+        public static ServiceProvider serviceProvider; 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            serviceProvider = services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime applicationLifetime)
         {
             if (env.IsDevelopment())
             {
@@ -54,6 +56,13 @@ namespace Core_Soundboard
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+
+            applicationLifetime.ApplicationStarted.Register(OnApplicationStarted);
+        }
+
+        public async void OnApplicationStarted()
+        {
+            Console.WriteLine("Started");
         }
     }
 }
